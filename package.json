@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/preact": "^4.1.1",
+    "@fontsource/twinkle-star": "^5.2.6",
     "astro": "^5.13.7",
     "preact": "^10.27.1"
   }

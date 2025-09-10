@@ -1,7 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Greeting from "../components/Greeting";
-const pageTitle = "Charlotte Rich-Griffin's cool website";
+const pageTitle = "Charlotte Rich-Griffin";
+const identity = {
+  firstName: "Charlotte",
+  country: "UK",
+  occupation: "Bioinformatics Engineer",
+  hobbies: ["dancing", "contra", "ceilidh"],
+};
+
+const skills = ["Ceilidh", "Contra", "Not so historical Playford"];
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -16,12 +24,21 @@ const pageTitle = "Charlotte Rich-Griffin's cool website";
       "😄", // added emoji
     ]}
   />
-  <p>Charlotte Rich-Griffin is a many facetted human</p>
-  <p></p>
-  She is a
-  <p>If you are interested in her folk dancing calling go here:</p>
-  <p></p>If you are interested in Stegastomp: <a
-    href=`https://www.stegastomp.co.uk/`>stegastomp.co.uk</a
-  >
-  <p></p>If you are interested in her science go here:
+  <p>Here are a few facts about me:</p>
+  Charlotte Rich-Griffin is a friendly folk dance caller and workshop leader based
+  in Oxfordshire in the UK. She runs fun, inclusive barn dances and ceilidhs at weddings,
+  parties and community events, as well running workshops and dances at festivals.
+  She loves sharing the joy of dancing with dancers of all levels of experience.
+
+  <p>She teaches a variety of different folk dances including:</p>
+  <ul>
+    {skills.map((skill) => <li class="skill">{skill}</li>)}
+  </ul>
+
+  In addition to calling, Charlotte is also helps organise two festivals. She
+  helps organise the social folk dance at <a
+    href=`https://www.sidmouthfolkfestival.co.uk/`>Sidmouth Folk Festival</a
+  > and leads the organisation of <a href=`https://www.stegastomp.co.uk/`
+    >Stegastomp</a
+  > a contra dance weekend with Contrasaurus.
 </BaseLayout>

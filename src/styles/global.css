@@ -16,13 +16,19 @@ body {
 }
 
 h1 {
+    color: hotpink;
     margin: 1rem 0;
     font-size: 2.5rem;
 }
 
+a {
+    color: hotpink;
+    /* background-color: yellow; */
+    font-weight: bold;
+}
 
 html.dark {
-    background-color: #050325;
+    background-color: #03011d;
     color: #fff;
 }
 
@@ -74,7 +80,6 @@ html.dark {
 
 @media screen and (min-width: 636px) {
     .nav-links {
-        margin-left: 5em;
         display: block;
         position: static;
         width: auto;
@@ -83,7 +88,7 @@ html.dark {
 
     .nav-links a {
         display: inline-block;
-        padding: 15px 20px;
+        padding: 0px 20px;
     }
 
     .hamburger {
