@@ -1,13 +1,41 @@
-<body>
-  <h1>My Astro Site</h1>
-  
-    <a href="/">Home</a>
-    <a href="/about/">About</a>
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
 
-    <h1>About Me</h1>
-    <h2>... and my new Astro site!</h2>
+const pageTitle = "About Me";
 
-  <p>I am working through Astro's introductory tutorial. This is the second page on my website, and it's the first one I built myself!</p>
+const identity = {
+    firstName: "Charlotte",
+    country: "UK",
+    occupation: "Bioinformatics Engineer",
+    hobbies: ["dancing", "contra", "ceilidh"],
+};
 
-  <p>This site will update as I complete more of the tutorial, so keep checking back and see how my journey is going!</p>
-</body>
+const skills = ["Ceilidh", "Contra", "Playford"];
+
+const happy = true;
+const finished = true;
+const goal = 3;
+
+const skillColor = "navy";
+const fontWeight = "bold";
+const textCase = "upper";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+    <p>Here are a few facts about me:</p>
+    <ul>
+        <li>My name is {identity.firstName}.</li>
+        <li>
+            I live in {identity.country} and I work as a {identity.occupation}.
+            But my more interesting side hustle, and the reason you are probably
+            here is that I am also a folk dance caller and folk festival
+            organiser. I call a variety of different folk dance styles
+            including:
+            <ul>
+                {skills.map((skill) => <li class="skill">{skill}</li>)}
+            </ul>
+        </li>
+    </ul>
+    <p>My skills are:</p>
+    <ul>many</ul>
+</BaseLayout>

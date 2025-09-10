@@ -1,23 +1,20 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Greeting from "../components/Greeting";
+const pageTitle = "Charlotte Rich-Griffin's cool website";
 ---
 
----
----
-
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} >
-    <title>Astro</title>
-  </head>
-  <body>
-    <h1>Charlotte Rich-Griffin</h1>
-  </body>
-</html>
+<BaseLayout pageTitle={pageTitle}>
+  <Greeting
+    client:load
+    messages={[
+      "Hi",
+      "Hello",
+      "Greetings fellow human",
+      "Hey there",
+      "Smiley face emoji",
+      "😄", // added emoji
+    ]}
+  />
+  <p>find out about me in the about tag</p>
+</BaseLayout>
