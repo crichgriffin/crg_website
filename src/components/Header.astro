@@ -5,20 +5,19 @@ import profileImage from "../assets/Shrewsbury2025zoom.jpeg";
 ---
 
 <header>
-    <div class="content-dir-item">
-        <h1>
-            <img
-                src={profileImage.src}
-                alt="photo of Charlotte Rich-Griffin"
-                style="width: 20%; height: auto;"
-            />
-            Charlotte Rich-Griffin
-        </h1>
+    <div class="top-row">
+        <Hamburger />
+        <div class="content-dir-item">
+            <h1>
+                Charlotte Rich-Griffin
+                <img
+                    src={profileImage.src}
+                    alt="photo of Charlotte Rich-Griffin"
+                    style="width: 20%; height: auto;"
+                />
+            </h1>
+        </div>
     </div>
 
-    <nav>
-        <Hamburger />
-
-        <Navigation />
-    </nav>
+    <Navigation class="nav-links" />
 </header>
