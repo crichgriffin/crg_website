@@ -109,6 +109,18 @@ html.dark {
     display: unset;
 }
 
+@media screen and (max-width: 635px) {
+    header {
+        max-width: none;
+    }
+
+    body {
+        max-width: none;
+        /* remove 80ch constraint */
+        padding: 0.5rem;
+    }
+}
+
 @media screen and (min-width: 636px) {
 
     h1 {
