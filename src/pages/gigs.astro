@@ -1,9 +1,171 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const pageTitle = "Upcoming gigs";
+const events = await getCollection("events");
+const bands = await getCollection("bands");
+const today = new Date();
+export const prerender = true;
+
+
+function findOrPush<T extends { data: { startDate: Date } }>(
+    events: [number, T[]][],
+    newEvent: T,
+): [number, T[]][] {
+    if (!newEvent.data?.startDate) {
+        return events;
+    }
+    const newEventYear = newEvent.data.startDate.getFullYear();
+    const innerEvent = events.find(([year, _]) => year === newEventYear);
+    if (innerEvent) {
+        innerEvent[1].push(newEvent);
+    } else {
+        events.push([newEventYear, [newEvent]]);
+    }
+    return events;
+}
+
+function ordinalSuffix(num: number): string {
+    const th = "th";
+    const rd = "rd";
+    const nd = "nd";
+    const st = "st";
+
+    if (num === 11 || num === 12 || num === 13) return th;
+
+    const lastDigit = num.toString().slice(-1);
+
+    switch (lastDigit) {
+        case "1":
+            return st;
+        case "2":
+            return nd;
+        case "3":
+            return rd;
+        default:
+            return th;
+    }
+}
+
+function formatOrdinalDate(date: Date): string {
+    return (
+        date.toLocaleDateString("en-us", { month: "long", day: "numeric" }) +
+        ordinalSuffix(date.getDate())
+    );
+}
+function formatDayOnly(date: Date): string {
+    return date.getDate() + ordinalSuffix(date.getDate());
+}
+
+function formatEventDates(event: {
+    data: { startDate: Date; endDate?: Date };
+}): string {
+    const displayEndDate = event.data.endDate
+        ? `–${
+              event.data.endDate.getMonth() == event.data.startDate.getMonth()
+                  ? formatDayOnly(event.data.endDate)
+                  : formatOrdinalDate(event.data.endDate)
+          }`
+        : ``;
+    return `${formatOrdinalDate(event.data.startDate)}${displayEndDate}`;
+}
+
+const upcomingEvents = events
+    .filter((e) => e.data.startDate >= today)
+    .sort((a, b) => a.data.startDate.getTime() - b.data.startDate.getTime())
+    .reduce(findOrPush, []);
+
+const pastEvents = events
+    .filter((e) => e.data.startDate < today)
+    .sort((a, b) => a.data.startDate.getTime() - b.data.startDate.getTime())
+    .reduce(findOrPush, [])
+    .sort(([yearA], [yearB]) => yearB - yearA); // Sort past events by year in descending order
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-    <p>Upcoming gigs are upcoming</p>
+    <h2>Future events</h2>
+
+    {
+        upcomingEvents.map(([year, events]) => (
+            <>
+                <h3>{year}</h3>
+                <ul>
+                    {events.map((event) => {
+                        // Find the band in the bands collection by title
+                        const band =
+                            event.data.band &&
+                            bands.find((b) => b.data.band === event.data.band);
+                        const bandLink = band?.data.link;
+
+                        return (
+                            <li>
+                                {formatEventDates(event)}:{" "}
+                                {event.data.link ? (
+                                    <a href={event.data.link}>
+                                        {event.data.title}
+                                    </a>
+                                ) : (
+                                    event.data.title
+                                )}{" "}
+                                {event.data.band &&
+                                    (bandLink ? (
+                                        <>
+                                            {" "}
+                                            with{" "}
+                                            <a href={bandLink}>
+                                                {event.data.band}
+                                            </a>
+                                        </>
+                                    ) : (
+                                        <> with {event.data.band}</>
+                                    ))}
+                                {event.data.note && ` ${event.data.note}`}
+                            </li>
+                        );
+                    })}
+                </ul>
+            </>
+        ))
+    }
 </BaseLayout>
+
+<h2>Past Events</h2>
+{
+    pastEvents.map(([year, events]) => (
+        <>
+            <h3>{year}</h3>
+            <ul>
+                {events.map((event) => {
+                    // Find the band in the bands collection by title
+                    const band =
+                        event.data.band &&
+                        bands.find((b) => b.data.band === event.data.band);
+                    const bandLink = band?.data.link;
+
+                    return (
+                        <li>
+                            {formatEventDates(event)}:{" "}
+                            {event.data.link ? (
+                                <a href={event.data.link}>{event.data.title}</a>
+                            ) : (
+                                event.data.title
+                            )}{" "}
+                            {event.data.band &&
+                                (bandLink ? (
+                                    <>
+                                        {" "}
+                                        with{" "}
+                                        <a href={bandLink}>{event.data.band}</a>
+                                    </>
+                                ) : (
+                                    <> with {event.data.band}</>
+                                ))}
+                            {event.data.note && ` ${event.data.note}`}
+                        </li>
+                    );
+                })}
+            </ul>
+        </>
+    ))
+}
