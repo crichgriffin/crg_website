@@ -1,8 +1,50 @@
 ---
+import { getCollection } from "astro:content";
+
 import BaseLayout from "../layouts/BaseLayout.astro";
-const pageTitle = "People I work with";
+import { toCodes } from "astro:i18n";
+const pageTitle = "Bands I work with";
+
+const bands = await getCollection("bands");
+
+const contrabands = bands.filter(
+    (t) => t.data.tags && t.data.tags.includes("contra"),
+);
+const ceilidhbands = bands.filter(
+    (t) => t.data.tags && t.data.tags.includes("ceilidh"),
+);
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-    Here is a list of people I work with WIP
+    Here is a list of people I work with
+
+    <h2>Contra bands</h2>
+    <ul>
+        {
+            contrabands.map((cb) => (
+                <li>
+                    {cb.data.link ? (
+                        <a href={cb.data.link}>{cb.data.band}</a>
+                    ) : (
+                        cb.data.band
+                    )}
+                </li>
+            ))
+        }
+    </ul>
+
+    <h2>Ceilidh bands</h2>
+    <ul>
+        {
+            ceilidhbands.map((cb) => (
+                <li>
+                    {cb.data.link ? (
+                        <a href={cb.data.link}>{cb.data.band}</a>
+                    ) : (
+                        cb.data.band
+                    )}
+                </li>
+            ))
+        }
+    </ul>
 </BaseLayout>

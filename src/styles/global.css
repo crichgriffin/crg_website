@@ -22,6 +22,12 @@ h1 {
     font-size: 1.75rem;
 }
 
+h2 {
+    color: rgb(206, 158, 182);
+    margin: 1rem 0;
+    font-size: 1.75rem;
+}
+
 a {
     color: hotpink;
     /* background-color: yellow; */

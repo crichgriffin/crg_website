@@ -19,6 +19,7 @@ const bands = defineCollection({
         band: z.string(),
         link: z.string().trim().url().optional(),
         note: z.string().optional(),
+        tags: z.array(z.string()).optional(),
     }),
 });
 
