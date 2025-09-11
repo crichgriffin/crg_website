@@ -8,8 +8,7 @@ const events = defineCollection({
         startDate: z.coerce.date(),
         endDate: z.coerce.date().optional(),
         link: z.string().trim().url().optional(),
-        band: z.string().optional(),
-        bandLink: z.string().trim().url().optional(),
+        band: z.array(z.string()).optional(),
         note: z.string().optional(),
     }),
 });

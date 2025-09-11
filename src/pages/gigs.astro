@@ -8,7 +8,6 @@ const bands = await getCollection("bands");
 const today = new Date();
 export const prerender = true;
 
-
 function findOrPush<T extends { data: { startDate: Date } }>(
     events: [number, T[]][],
     newEvent: T,
@@ -92,11 +91,22 @@ const pastEvents = events
                 <h3>{year}</h3>
                 <ul>
                     {events.map((event) => {
-                        // Find the band in the bands collection by title
-                        const band =
-                            event.data.band &&
-                            bands.find((b) => b.data.band === event.data.band);
-                        const bandLink = band?.data.link;
+                        // Find the bands in the bands collection by title
+                        const eventBands = event.data.band
+                            ? Array.isArray(event.data.band)
+                                ? event.data.band
+                                : [event.data.band]
+                            : [];
+                        const bandLinks = eventBands
+                            .map((bandName) => {
+                                const band = bands.find(
+                                    (b) => b.data.band === bandName,
+                                );
+                                return band?.data.link
+                                    ? `<a href="${band.data.link}">${bandName}</a>`
+                                    : bandName;
+                            })
+                            .join(" and ");
 
                         return (
                             <li>
@@ -108,18 +118,61 @@ const pastEvents = events
                                 ) : (
                                     event.data.title
                                 )}{" "}
-                                {event.data.band &&
-                                    (bandLink ? (
-                                        <>
-                                            {" "}
-                                            with{" "}
-                                            <a href={bandLink}>
-                                                {event.data.band}
-                                            </a>
-                                        </>
-                                    ) : (
-                                        <> with {event.data.band}</>
-                                    ))}
+                                {bandLinks && (
+                                    <span>
+                                        {" "}
+                                        with <span set:html={bandLinks} />
+                                    </span>
+                                )}
+                                {event.data.note && ` ${event.data.note}`}
+                            </li>
+                        );
+                    })}
+                </ul>
+            </>
+        ))
+    }
+
+    <h2>Past Events</h2>
+    {
+        pastEvents.map(([year, events]) => (
+            <>
+                <h3>{year}</h3>
+                <ul>
+                    {events.map((event) => {
+                        // Find the bands in the bands collection by title
+                        const eventBands = event.data.band
+                            ? Array.isArray(event.data.band)
+                                ? event.data.band
+                                : [event.data.band]
+                            : [];
+                        const bandLinks = eventBands
+                            .map((bandName) => {
+                                const band = bands.find(
+                                    (b) => b.data.band === bandName,
+                                );
+                                return band?.data.link
+                                    ? `<a href="${band.data.link}">${bandName}</a>`
+                                    : bandName;
+                            })
+                            .join(" and ");
+
+                        return (
+                            <li>
+                                {formatEventDates(event)}:{" "}
+                                {event.data.link ? (
+                                    <a href={event.data.link}>
+                                        {event.data.title}
+                                    </a>
+                                ) : (
+                                    event.data.title
+                                )}{" "}
+                                {bandLinks && (
+                                    <span>
+                                        {" "}
+                                        with <span set:html={bandLinks} />
+                                    </span>
+                                )}
                                 {event.data.note && ` ${event.data.note}`}
                             </li>
                         );
@@ -129,43 +182,3 @@ const pastEvents = events
         ))
     }
 </BaseLayout>
-
-<h2>Past Events</h2>
-{
-    pastEvents.map(([year, events]) => (
-        <>
-            <h3>{year}</h3>
-            <ul>
-                {events.map((event) => {
-                    // Find the band in the bands collection by title
-                    const band =
-                        event.data.band &&
-                        bands.find((b) => b.data.band === event.data.band);
-                    const bandLink = band?.data.link;
-
-                    return (
-                        <li>
-                            {formatEventDates(event)}:{" "}
-                            {event.data.link ? (
-                                <a href={event.data.link}>{event.data.title}</a>
-                            ) : (
-                                event.data.title
-                            )}{" "}
-                            {event.data.band &&
-                                (bandLink ? (
-                                    <>
-                                        {" "}
-                                        with{" "}
-                                        <a href={bandLink}>{event.data.band}</a>
-                                    </>
-                                ) : (
-                                    <> with {event.data.band}</>
-                                ))}
-                            {event.data.note && ` ${event.data.note}`}
-                        </li>
-                    );
-                })}
-            </ul>
-        </>
-    ))
-}
