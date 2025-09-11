@@ -48,6 +48,15 @@ header .top-row {
     align-items: center;
 }
 
+/* banner image full width */
+header .content-dir-item img {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    height: 250px;
+    object-fit: cover;
+    display: block;
+}
+
 /* name + image side by side */
 header .content-dir-item h1 {
     display: flex;

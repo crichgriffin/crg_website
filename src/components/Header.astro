@@ -2,22 +2,24 @@
 import Hamburger from "./Hamburger.astro";
 import Navigation from "./Navigation.astro";
 import profileImage from "../assets/Shrewsbury2025zoom.jpeg";
+import bannerImage from "../assets/IVFDF2018_latenight2.jpg";
 ---
 
 <header>
     <div class="top-row">
         <Hamburger />
         <div class="content-dir-item">
+            <Navigation />
+
             <h1>
                 Charlotte Rich-Griffin
-                <img
+                <!-- <img
                     src={profileImage.src}
                     alt="photo of Charlotte Rich-Griffin"
                     style="width: 20%; height: auto;"
-                />
+                /> -->
             </h1>
+            <img src={bannerImage.src} alt="" />
         </div>
     </div>
-
-    <Navigation />
 </header>
