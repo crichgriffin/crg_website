@@ -1,0 +1,18 @@
+[
+  {
+    "label": "Home",
+    "href": "/"
+  },
+  {
+    "label": "Bands I work with",
+    "href": "/collaborators"
+  },
+  {
+    "label": "Upcoming Gigs",
+    "href": "/gigs"
+  },
+  {
+    "label": "Contact Me",
+    "href": "/contact"
+  }
+]

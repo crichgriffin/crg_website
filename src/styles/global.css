@@ -1,5 +1,6 @@
 html {
-    background-color: #f1f5f9;
+    background-color: #03011d;
+    color: #fff;
     font-family: sans-serif;
 }
 
@@ -64,14 +65,8 @@ header .nav-links {
     to left */
 }
 
-html.dark {
-    background-color: #03011d;
-    color: #fff;
-}
 
-.dark .nav-links a {
-    color: #fff;
-}
+
 
 /* nav styles */
 .hamburger {
@@ -91,7 +86,8 @@ html.dark {
     width: 100%;
     top: 5rem;
     left: 48px;
-    background-color: #ff9776;
+    background-color: rgba(250, 147, 198, 0.327);
+    color: white;
     display: none;
     margin: 0;
 }
@@ -104,11 +100,12 @@ html.dark {
     font-size: 1.2rem;
     font-weight: bold;
     text-transform: uppercase;
+    color: white;
 }
 
 .nav-links a:hover,
 .nav-links a:focus {
-    background-color: #ff9776;
+    background-color: hotpink;
 }
 
 .expanded {
